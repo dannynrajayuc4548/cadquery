@@ -99,52 +99,13 @@ class Vector:
         return Vector(self._wrapped.Reversed())
 
     def __repr__(self) -> str:
-        return f"Vector({self.x}, {self.y}, {self.z})"
+        # Round to 4 decimal places for cleaner output when debugging
+        return f"Vector({self.x:.4g}, {self.y:.4g}, {self.z:.4g})"
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: "Vector", tol: float = 1e-9) -> bool:
+        """Check equality within a small tolerance."""
         if not isinstance(other, Vector):
             return False
-        return self._wrapped.IsEqual(other._wrapped, 1e-9, 1e-9)
-
-
-class Matrix:
-    """A 4x4 transformation matrix wrapping OCC gp_Trsf."""
-
-    def __init__(self, matrix=None):
-        if matrix is None:
-            self._wrapped = gp_Trsf()
-        elif isinstance(matrix, gp_Trsf):
-            self._wrapped = matrix
-        else:
-            raise TypeError(f"Cannot create Matrix from {type(matrix)}")
-
-    def rotateX(self, angle: float) -> "Matrix":
-        """Rotate around X axis by angle (radians)."""
-        t = gp_Trsf()
-        t.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(1, 0, 0)), angle)
-        self._wrapped.Multiply(t)
-        return self
-
-    def rotateY(self, angle: float) -> "Matrix":
-        """Rotate around Y axis by angle (radians)."""
-        t = gp_Trsf()
-        t.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(0, 1, 0)), angle)
-        self._wrapped.Multiply(t)
-        return self
-
-    def rotateZ(self, angle: float) -> "Matrix":
-        """Rotate around Z axis by angle (radians)."""
-        t = gp_Trsf()
-        t.SetRotation(gp_Ax1(gp_Pnt(), gp_Dir(0, 0, 1)), angle)
-        self._wrapped.Multiply(t)
-        return self
-
-    def inverse(self) -> "Matrix":
-        """Return the inverse of this matrix."""
-        t = gp_Trsf(self._wrapped)
-        t.Invert()
-        return Matrix(t)
-
-    @property
-    def wrapped(self) -> gp_Trsf:
-        return self._wrapped
+        return (abs(self.x - other.x) < tol and
+                abs(self.y - other.y) < tol and
+                abs(self.z - other.z) < tol)
