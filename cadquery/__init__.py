@@ -16,6 +16,11 @@ Example usage::
     )
 
 Note: This is a personal fork. Upstream: https://github.com/CadQuery/cadquery
+
+Personal notes:
+- Forked 2024 for learning OCCT geometry kernel internals.
+- See notebooks/ directory for experiments with Solid and Shell operations.
+- TODO: explore adding a helper for common PCB standoff geometry.
 """
 
 from .cq import CQContext, CQ, Workplane
