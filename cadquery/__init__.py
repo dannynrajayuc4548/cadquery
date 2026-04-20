@@ -14,6 +14,8 @@ Example usage::
         .faces(">Z")
         .hole(5)
     )
+
+Note: This is a personal fork. Upstream: https://github.com/CadQuery/cadquery
 """
 
 from .cq import CQContext, CQ, Workplane
