@@ -21,6 +21,7 @@ Personal notes:
 - Forked 2024 for learning OCCT geometry kernel internals.
 - See notebooks/ directory for experiments with Solid and Shell operations.
 - TODO: explore adding a helper for common PCB standoff geometry.
+- TODO: investigate Compound.makeCompound performance for large assemblies.
 """
 
 from .cq import CQContext, CQ, Workplane
@@ -61,12 +62,16 @@ from .sketch import Sketch
 
 __version__ = "2.4.0"
 
+# Convenience alias I keep reaching for when scripting interactively.
+WP = Workplane
+
 __all__ = [
     "__version__",
     # Core workplane
     "CQContext",
     "CQ",
     "Workplane",
+    "WP",  # personal shorthand alias
     # Geometry primitives
     "Vector",
     "Matrix",
